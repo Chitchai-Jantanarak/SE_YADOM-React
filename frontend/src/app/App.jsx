@@ -16,11 +16,9 @@ const App = () => {
         <div key={product.id}>
           <h3>{product.name}</h3>
           <img src={product.modelURL} alt={product.name} />
-          asdasdasdadadasdsdadaas
         </div>
       ))}
     </div>
-    //fefefwefowefowfowfkowkpwkprkwepkrpewkr
   );
 };
 
