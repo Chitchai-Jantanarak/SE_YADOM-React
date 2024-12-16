@@ -1,0 +1,13 @@
+- มี TODOLIST หรือ มีปัญหาตรงไหนทิ้งโน้ตไว้ตรงนี้ได้น้ะ
+
+- ถ้าเพิ่มอะไรให้ลงโน้ตไว้ด้วย กันอ่านใน github ไม่ออกว่าทำอะไรลงไปบ้าง
+  ตอน PULL หรือ Sync แนะนำให้ re-install package ทุกครั้งนะ
+  เผื่อเพิ่มอะไรไว้ :)
+
+M-D-Y
+back, front
+Add, Fix, Del
+description
+
+12-16-2024 | back  | Add | middleware auth
+12-16-2024 | front | Add | directory path

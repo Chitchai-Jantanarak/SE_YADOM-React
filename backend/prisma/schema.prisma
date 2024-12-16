@@ -8,9 +8,9 @@ datasource db {
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
-  name      String
-  modelURL  String
+  id          Int    @id @default(autoincrement())
+  name        String
+  modelURL    String
   description String
 }
 
