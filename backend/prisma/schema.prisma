@@ -109,7 +109,7 @@ model ModifiedBone {
 
 // CartItem Table
 model CartItem {
-  id                  Int @id @default(autoincrement())
+  id                  Int               @id @default(autoincrement())
   productId           Int
   aromaId             Int?
   userId              Int
@@ -132,10 +132,11 @@ model CartItem {
 model Order {
   id                  Int               @id @default(autoincrement())
   userId              Int
-  user                User              @relation(fields: [userId], references: [id])
 
   cartItems           CartItem[]        // Items in the order
   status              OrderStatus       @default(WAITING) // Status for admin setter
+  
+  user                User              @relation(fields: [userId], references: [id])
 
   createdAt           DateTime          @default(now())
   updatedAt           DateTime          @updatedAt

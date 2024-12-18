@@ -1,36 +1,35 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE `User` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `surname` VARCHAR(191) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
+    `tel` VARCHAR(191) NOT NULL,
+    `address` VARCHAR(191) NOT NULL,
+    `role` ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NOT NULL,
+    `deleted_at` DATETIME(3) NULL,
 
-  - You are about to drop the column `modelURL` on the `product` table. All the data in the column will be lost.
-  - You are about to alter the column `role` on the `user` table. The data in that column could be lost. The data in that column will be cast from `VarChar(191)` to `Enum(EnumId(0))`.
-  - Added the required column `localUrl` to the `Product` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `price` to the `Product` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `updated_at` to the `Product` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `address` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `name` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `surname` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `tel` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `updated_at` to the `User` table without a default value. This is not possible if the table is not empty.
+    UNIQUE INDEX `User_email_key`(`email`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-*/
--- AlterTable
-ALTER TABLE `product` DROP COLUMN `modelURL`,
-    ADD COLUMN `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    ADD COLUMN `deleted_at` DATETIME(3) NULL,
-    ADD COLUMN `localUrl` VARCHAR(191) NOT NULL,
-    ADD COLUMN `price` DOUBLE NOT NULL,
-    ADD COLUMN `type` ENUM('ACCESSORY', 'MAIN_PRODUCT', 'UNKNOWN') NOT NULL DEFAULT 'UNKNOWN',
-    ADD COLUMN `updated_at` DATETIME(3) NOT NULL;
+-- CreateTable
+CREATE TABLE `Product` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(191) NOT NULL,
+    `price` DOUBLE NOT NULL,
+    `type` ENUM('ACCESSORY', 'MAIN_PRODUCT', 'UNKNOWN') NOT NULL DEFAULT 'UNKNOWN',
+    `localUrl` VARCHAR(191) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NOT NULL,
+    `deleted_at` DATETIME(3) NULL,
 
--- AlterTable
-ALTER TABLE `user` ADD COLUMN `address` VARCHAR(191) NOT NULL,
-    ADD COLUMN `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    ADD COLUMN `deleted_at` DATETIME(3) NULL,
-    ADD COLUMN `name` VARCHAR(191) NOT NULL,
-    ADD COLUMN `surname` VARCHAR(191) NOT NULL,
-    ADD COLUMN `tel` VARCHAR(191) NOT NULL,
-    ADD COLUMN `updated_at` DATETIME(3) NOT NULL,
-    MODIFY `role` ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER';
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Bone` (
