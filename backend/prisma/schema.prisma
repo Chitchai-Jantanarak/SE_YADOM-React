@@ -7,16 +7,136 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Product {
-  id          Int    @id @default(autoincrement())
-  name        String
-  modelURL    String
-  description String
+enum Role {
+  USER
+  ADMIN
 }
 
-model user {
-  id       Int    @id @default(autoincrement())
-  email    String @unique(map: "User_email_key")
-  password String
-  role     String
+enum ModifyStatus {
+  CUSTOM
+  TEMPLATE
+}
+
+enum ProductType {
+  ACCESSORY
+  MAIN_PRODUCT
+  UNKNOWN
+}
+
+enum OrderStatus {
+  WAITING
+  PENDING
+  CANCELED
+  CONFIRMED
+  COMPLETED
+}
+
+// User Table
+model User {
+  id                  Int               @id @default(autoincrement())
+  name                String
+  surname             String
+  email               String            @unique
+  password            String
+  tel                 String
+  address             String
+  role                Role              @default(USER)
+
+  cartItems           CartItem[]
+  orders              Order[]
+  modifiedBones       ModifiedBone[]
+
+  created_at          DateTime          @default(now())
+  updated_at          DateTime          @updatedAt
+  deleted_at          DateTime?
+}
+
+// Product Table (Static)
+model Product {
+  id                  Int               @id @default(autoincrement())
+  name                String
+  description         String
+  price               Float
+  type                ProductType       @default(UNKNOWN)
+  localUrl            String
+
+  bones               Bone[]            // Related bones for MAIN_PRODUCT
+  CartItem            CartItem[]
+
+  created_at          DateTime          @default(now())
+  updated_at          DateTime          @updatedAt
+  deleted_at          DateTime?
+}
+
+// Bone Table (Static - MAIN_PRODUCT)
+model Bone {
+  id                  Int               @id @default(autoincrement())
+  productId           Int
+  name                String
+  defaultColor        String
+  modifiedBones       ModifiedBone[]
+  isConfiguration     Boolean
+
+  product             Product           @relation(fields: [productId], references: [id])
+}
+
+// Aroma Table (Static - MAIN_PRODUCT) 
+model Aroma {
+  id                  Int               @id @default(autoincrement())
+  name                String
+  description         String
+  price               Float
+  CartItem            CartItem[]
+
+  created_at          DateTime          @default(now())
+  updated_at          DateTime          @updatedAt
+  deleted_at          DateTime?
+}
+
+// ModifiedBone Table (Applied Only (isConfiguration) - MAIN_PRODUCT)
+model ModifiedBone {
+  id                  Int               @id @default(autoincrement())
+  color               String
+  boneId              Int
+  userId              Int
+  type                ModifyStatus      @default(TEMPLATE) // Outside Setter count as TEMPLATE & User Export
+
+  bone                Bone              @relation(fields: [boneId], references: [id])
+  user                User              @relation(fields: [userId], references: [id])
+
+  createdAt           DateTime          @default(now())
+}
+
+// CartItem Table
+model CartItem {
+  id                  Int @id @default(autoincrement())
+  productId           Int
+  aromaId             Int?
+  userId              Int
+  orderId             Int?
+  price               Float             // Computed price of the CartItem { (product + aroma) * quantity + delivery }
+  quantity            Int
+  isUsed              Boolean           @default(true) // Easier for mark used 
+
+  aroma               Aroma?            @relation(fields: [aromaId], references: [id])
+  product             Product           @relation(fields: [productId], references: [id])
+  user                User              @relation(fields: [userId], references: [id])
+  Order               Order?            @relation(fields: [orderId], references: [id])
+
+  created_at          DateTime          @default(now())
+  updated_at          DateTime          @updatedAt
+  deleted_at          DateTime?
+}
+
+// Order Table (Admin Management)
+model Order {
+  id                  Int               @id @default(autoincrement())
+  userId              Int
+  user                User              @relation(fields: [userId], references: [id])
+
+  cartItems           CartItem[]        // Items in the order
+  status              OrderStatus       @default(WAITING) // Status for admin setter
+
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
 }
