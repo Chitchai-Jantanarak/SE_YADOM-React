@@ -8,8 +8,9 @@ datasource db {
 }
 
 enum Role {
-  USER
+  CUSTOMER
   ADMIN
+  OWNER
 }
 
 enum ModifyStatus {
@@ -33,111 +34,126 @@ enum OrderStatus {
 
 // User Table
 model User {
-  id                  Int               @id @default(autoincrement())
+  id                  Int                 @id @default(autoincrement())
   name                String
   surname             String
-  email               String            @unique
+  email               String              @unique
   password            String
   tel                 String
   address             String
-  role                Role              @default(USER)
+  role                Role                @default(CUSTOMER)
 
   cartItems           CartItem[]
   orders              Order[]
-  modifiedBones       ModifiedBone[]
+  modifiedBoneGroups  ModifiedBoneGroup[]
 
-  created_at          DateTime          @default(now())
-  updated_at          DateTime          @updatedAt
+  created_at          DateTime            @default(now())
+  updated_at          DateTime            @updatedAt
   deleted_at          DateTime?
 }
 
 // Product Table (Static)
 model Product {
-  id                  Int               @id @default(autoincrement())
+  id                  Int                 @id @default(autoincrement())
   name                String
   description         String
   price               Float
-  type                ProductType       @default(UNKNOWN)
+  type                ProductType         @default(UNKNOWN)
   localUrl            String
 
-  bones               Bone[]            // Related bones for MAIN_PRODUCT
-  CartItem            CartItem[]
+  bones               Bone[]              // Related bones for MAIN_PRODUCT
+  cartItems            CartItem[]
 
-  created_at          DateTime          @default(now())
-  updated_at          DateTime          @updatedAt
+  created_at          DateTime            @default(now())
+  updated_at          DateTime            @updatedAt
   deleted_at          DateTime?
 }
 
 // Bone Table (Static - MAIN_PRODUCT)
 model Bone {
-  id                  Int               @id @default(autoincrement())
+  id                  Int                 @id @default(autoincrement())
   productId           Int
   name                String
   defaultColor        String
   modifiedBones       ModifiedBone[]
   isConfiguration     Boolean
 
-  product             Product           @relation(fields: [productId], references: [id])
+  product             Product             @relation(fields: [productId], references: [id])
 }
 
 // Aroma Table (Static - MAIN_PRODUCT) 
 model Aroma {
-  id                  Int               @id @default(autoincrement())
+  id                  Int                 @id @default(autoincrement())
   name                String
   description         String
   price               Float
-  CartItem            CartItem[]
+  cartItems            CartItem[]
 
-  created_at          DateTime          @default(now())
-  updated_at          DateTime          @updatedAt
+  created_at          DateTime            @default(now())
+  updated_at          DateTime            @updatedAt
   deleted_at          DateTime?
 }
 
 // ModifiedBone Table (Applied Only (isConfiguration) - MAIN_PRODUCT)
 model ModifiedBone {
-  id                  Int               @id @default(autoincrement())
-  color               String
+  id                  Int                 @id @default(autoincrement())
   boneId              Int
+  color               String
+  modifiedBoneGroupId Int?
+
+  bone                Bone                @relation(fields: [boneId], references: [id])
+  modifiedBoneGroup   ModifiedBoneGroup?  @relation(fields: [modifiedBoneGroupId], references: [id])
+
+  createdAt           DateTime            @default(now())
+}
+
+// ModifiedBoneGroup Table (Group of ModifiedBone - MAIN_PRODUCT && User Request Grouped)
+model ModifiedBoneGroup {
+  id                  Int                 @id @default(autoincrement())
   userId              Int
-  type                ModifyStatus      @default(TEMPLATE) // Outside Setter count as TEMPLATE & User Export
-
-  bone                Bone              @relation(fields: [boneId], references: [id])
-  user                User              @relation(fields: [userId], references: [id])
-
-  createdAt           DateTime          @default(now())
+  cartItem            CartItem[] 
+  type                ModifyStatus        @default(TEMPLATE) // Outside Setter count as TEMPLATE & User Export
+  modifiedBones       ModifiedBone[]
+  
+  user                User                @relation(fields: [userId], references: [id])
+  
+  created_at          DateTime            @default(now())
 }
 
 // CartItem Table
 model CartItem {
-  id                  Int               @id @default(autoincrement())
+  id                  Int                 @id @default(autoincrement())
   productId           Int
   aromaId             Int?
   userId              Int
+  modifiedBoneGroupId Int?                @unique
   orderId             Int?
-  price               Float             // Computed price of the CartItem { (product + aroma) * quantity + delivery }
+  price               Float               // Computed price of the CartItem { (product + aroma) * quantity + delivery }
   quantity            Int
-  isUsed              Boolean           @default(true) // Easier for mark used 
+  isUsed              Boolean             @default(true) // Easier for mark used 
 
-  aroma               Aroma?            @relation(fields: [aromaId], references: [id])
-  product             Product           @relation(fields: [productId], references: [id])
-  user                User              @relation(fields: [userId], references: [id])
-  Order               Order?            @relation(fields: [orderId], references: [id])
+  product             Product             @relation(fields: [productId], references: [id])
+  aroma               Aroma?              @relation(fields: [aromaId], references: [id])
+  user                User                @relation(fields: [userId], references: [id])
+  modifiedBoneGroup   ModifiedBoneGroup?  @relation(fields: [modifiedBoneGroupId], references: [id]) 
+  Order               Order?              @relation(fields: [orderId], references: [id])
 
-  created_at          DateTime          @default(now())
-  updated_at          DateTime          @updatedAt
+  created_at          DateTime            @default(now())
+  updated_at          DateTime            @updatedAt
   deleted_at          DateTime?
+
 }
 
 // Order Table (Admin Management)
 model Order {
-  id                  Int               @id @default(autoincrement())
+  id                  Int                 @id @default(autoincrement())
   userId              Int
 
-  cartItems           CartItem[]        // Items in the order
-  status              OrderStatus       @default(WAITING) // Status for admin setter
+  cartItems           CartItem[]          // Items in the order
+  status              OrderStatus         @default(WAITING) // Status for admin setter
   
-  user                User              @relation(fields: [userId], references: [id])
+  user                User                @relation(fields: [userId], references: [id])
 
-  createdAt           DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
 }

@@ -7,7 +7,7 @@ CREATE TABLE `User` (
     `password` VARCHAR(191) NOT NULL,
     `tel` VARCHAR(191) NOT NULL,
     `address` VARCHAR(191) NOT NULL,
-    `role` ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
+    `role` ENUM('CUSTOMER', 'ADMIN', 'OWNER') NOT NULL DEFAULT 'CUSTOMER',
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
     `deleted_at` DATETIME(3) NULL,
@@ -58,11 +58,20 @@ CREATE TABLE `Aroma` (
 -- CreateTable
 CREATE TABLE `ModifiedBone` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `color` VARCHAR(191) NOT NULL,
     `boneId` INTEGER NOT NULL,
+    `color` VARCHAR(191) NOT NULL,
+    `modifiedBoneGroupId` INTEGER NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `ModifiedBoneGroup` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `userId` INTEGER NOT NULL,
     `type` ENUM('CUSTOM', 'TEMPLATE') NOT NULL DEFAULT 'TEMPLATE',
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -73,6 +82,7 @@ CREATE TABLE `CartItem` (
     `productId` INTEGER NOT NULL,
     `aromaId` INTEGER NULL,
     `userId` INTEGER NOT NULL,
+    `modifiedBoneGroupId` INTEGER NULL,
     `orderId` INTEGER NULL,
     `price` DOUBLE NOT NULL,
     `quantity` INTEGER NOT NULL,
@@ -81,6 +91,7 @@ CREATE TABLE `CartItem` (
     `updated_at` DATETIME(3) NOT NULL,
     `deleted_at` DATETIME(3) NULL,
 
+    UNIQUE INDEX `CartItem_modifiedBoneGroupId_key`(`modifiedBoneGroupId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -102,16 +113,22 @@ ALTER TABLE `Bone` ADD CONSTRAINT `Bone_productId_fkey` FOREIGN KEY (`productId`
 ALTER TABLE `ModifiedBone` ADD CONSTRAINT `ModifiedBone_boneId_fkey` FOREIGN KEY (`boneId`) REFERENCES `Bone`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ModifiedBone` ADD CONSTRAINT `ModifiedBone_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `ModifiedBone` ADD CONSTRAINT `ModifiedBone_modifiedBoneGroupId_fkey` FOREIGN KEY (`modifiedBoneGroupId`) REFERENCES `ModifiedBoneGroup`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `CartItem` ADD CONSTRAINT `CartItem_aromaId_fkey` FOREIGN KEY (`aromaId`) REFERENCES `Aroma`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `ModifiedBoneGroup` ADD CONSTRAINT `ModifiedBoneGroup_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `CartItem` ADD CONSTRAINT `CartItem_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `Product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `CartItem` ADD CONSTRAINT `CartItem_aromaId_fkey` FOREIGN KEY (`aromaId`) REFERENCES `Aroma`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `CartItem` ADD CONSTRAINT `CartItem_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `CartItem` ADD CONSTRAINT `CartItem_modifiedBoneGroupId_fkey` FOREIGN KEY (`modifiedBoneGroupId`) REFERENCES `ModifiedBoneGroup`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `CartItem` ADD CONSTRAINT `CartItem_orderId_fkey` FOREIGN KEY (`orderId`) REFERENCES `Order`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
