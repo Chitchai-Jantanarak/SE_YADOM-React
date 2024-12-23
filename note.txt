@@ -3,6 +3,7 @@
 - ถ้าเพิ่มอะไรให้ลงโน้ตไว้ด้วย กันอ่านใน github ไม่ออกว่าทำอะไรลงไปบ้าง
   ตอน PULL หรือ Sync แนะนำให้ re-install package ทุกครั้งนะ
   เผื่อเพิ่มอะไรไว้ :)
+  eiei
 
 M-D-Y
 back, front
@@ -11,3 +12,7 @@ description
 
 12-16-2024 | back  | Add | middleware auth
 12-16-2024 | front | Add | directory path
+12-18-2024 | back  | Add | prisma
+12-19-2024 | back  | Fix | complete prisma
+12-22-2024 | front | Add | test model, import css (tailwind + daisyui)
+12-23-2024 | front | Add | test model, import local font
