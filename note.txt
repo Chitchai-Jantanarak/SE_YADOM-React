@@ -12,3 +12,7 @@ description
 
 12-16-2024 | back  | Add | middleware auth
 12-16-2024 | front | Add | directory path
+12-18-2024 | back  | Add | prisma
+12-19-2024 | back  | Fix | complete prisma
+12-22-2024 | front | Add | test model, import css (tailwind + daisyui)
+12-23-2024 | front | Add | test model, import local font
