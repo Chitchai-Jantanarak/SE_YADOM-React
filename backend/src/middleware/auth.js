@@ -25,7 +25,7 @@ export const authenticateToken = (req, res, next) => {
 
   const authToken = authHeader[1];
   // verifying token
-  jwt.verify(token, process.env.JWT_SECRET, async (err, user) => {
+  jwt.verify(authToken, process.env.JWT_SECRET, async (err, user) => {
     if (err) {
       return res.sendStatus(403).json({
         result : false,
