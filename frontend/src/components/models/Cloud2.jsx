@@ -7,7 +7,7 @@ import React from 'react'
 import { useGLTF } from '@react-three/drei'
 
 export function Cloud(props) {
-  const { nodes, materials } = useGLTF('/models/cloud2.glb')
+  const { nodes, materials } = useGLTF('/assets/models/cloud2.glb')
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes.Sphere003.geometry} material={materials['Material.001']} position={[-2.003, -1.191, 2.14]} rotation={[0.043, 0.007, -3.139]} scale={-0.684} />
@@ -20,4 +20,4 @@ export function Cloud(props) {
   )
 }
 
-useGLTF.preload('/models/cloud2.glb')
+useGLTF.preload('/assets/models/cloud2.glb')
