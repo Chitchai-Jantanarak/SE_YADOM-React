@@ -62,7 +62,7 @@ model Product {
   localUrl            String
 
   bones               Bone[]              // Related bones for MAIN_PRODUCT
-  cartItems            CartItem[]
+  cartItems           CartItem[]
 
   created_at          DateTime            @default(now())
   updated_at          DateTime            @updatedAt
