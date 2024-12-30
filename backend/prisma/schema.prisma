@@ -87,7 +87,7 @@ model Aroma {
   name                String
   description         String
   price               Float
-  cartItems            CartItem[]
+  cartItems           CartItem[]
 
   created_at          DateTime            @default(now())
   updated_at          DateTime            @updatedAt
@@ -112,7 +112,7 @@ model ModifiedBoneGroup {
   id                  Int                 @id @default(autoincrement())
   userId              Int
   cartItem            CartItem[] 
-  type                ModifyStatus        @default(TEMPLATE) // Outside Setter count as TEMPLATE & User Export
+  shere_status        ModifyStatus        @default(TEMPLATE) // Outside Setter count as TEMPLATE & User Export
   modifiedBones       ModifiedBone[]
   
   user                User                @relation(fields: [userId], references: [id])
