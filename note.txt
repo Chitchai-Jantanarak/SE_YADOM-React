@@ -16,3 +16,5 @@ description
 12-19-2024 | back  | Fix | complete prisma
 12-22-2024 | front | Add | test model, import css (tailwind + daisyui)
 12-23-2024 | front | Add | test model, import local font
+12-29-2024 | front | Fix | move path ( public -> assets )
+12-29-2024 | front | Add | test model, nav bar
