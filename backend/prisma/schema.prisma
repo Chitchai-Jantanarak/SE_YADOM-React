@@ -13,6 +13,11 @@ enum Role {
   OWNER
 }
 
+enum BoneStyle {
+  COLOR
+  PATTERN
+}
+
 enum ModifyStatus {
   CUSTOM
   TEMPLATE
@@ -74,7 +79,7 @@ model Bone {
   id                  Int                 @id @default(autoincrement())
   productId           Int
   name                String
-  defaultColor        String
+  defaultStyle        BoneStyle
   modifiedBones       ModifiedBone[]
   isConfiguration     Boolean
 
