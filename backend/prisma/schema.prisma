@@ -18,11 +18,6 @@ enum BoneStyle {
   PATTERN
 }
 
-enum ModifyStatus {
-  CUSTOM
-  TEMPLATE
-}
-
 enum ProductType {
   ACCESSORY
   MAIN_PRODUCT
@@ -117,7 +112,7 @@ model ModifiedBoneGroup {
   id                  Int                 @id @default(autoincrement())
   userId              Int
   cartItem            CartItem[] 
-  shere_status        ModifyStatus        @default(TEMPLATE) // Outside Setter count as TEMPLATE & User Export
+  shareStatus         Boolean             @default(false) // Outside Setter count as false & user Export
   modifiedBones       ModifiedBone[]
   
   user                User                @relation(fields: [userId], references: [id])
