@@ -77,8 +77,9 @@ router.post('/register',
                 msg    : 'User created successfully',
                 user
             });
-        } catch (error) {
-            console.error(error);
+        } 
+        catch (err) {
+            console.error(err);
             return res.status(500).json({
                 result: false,
                 status: 'error',
@@ -127,15 +128,17 @@ router.post('/login',
                     msg    : 'Login successful',
                     token  : token // Include the token in the response
                 });
-            } else {
+            } 
+            else {
                 return res.status(401).json({
                     result : false,
                     status : 'warning',
                     msg    : 'Incorrect password'
                 });
             }
-        } catch (error) {
-            console.error(error);
+        } 
+        catch (err) {
+            console.error(err);
             return res.status(500).json({
                 result: false,
                 status: 'error',
@@ -164,7 +167,7 @@ router.post('/forgot-password',
             const { email } = req.body;
             const user = await prisma.user.findUnique({ where: { email } });
 
-            // Check if user exists
+            // Check user exists
             if (!user) {
                 return res.status(400).json({ 
                     result : false,
@@ -181,7 +184,7 @@ router.post('/forgot-password',
                 where: { email },
                 data: {
                     resetToken,
-                    resetTokenExpiry: Date.now() + 3600000 // 1 hour
+                    resetTokenExpiry: new Date(Date.now() + 3600000) // 1 hour
                 }
             });
 
@@ -194,15 +197,16 @@ router.post('/forgot-password',
                 }
             });
 
+            const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
             const mailOptions = {
                 from: process.env.EMAIL_USER,
                 to: email,
                 subject: 'Password Reset',
-                text: `You requested a password reset. Please use the following token to reset your password: ${resetToken}`
+                text: `You requested a password reset. Please use the following link to reset your password: ${resetLink}`
             };
 
             transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
+                if (error) {   
                     return res.status(500).json({ 
                         result : false,
                         status : 'error',
@@ -216,8 +220,9 @@ router.post('/forgot-password',
                     });
                 }
             });
-        } catch (error) {
-            console.error(error);
+        } 
+        catch (err) {
+            console.error(err);
             return res.status(500).json({
                 result: false,
                 status: 'error',
@@ -287,8 +292,9 @@ router.post('/reset-password',
                 status : 'success',
                 msg    : 'Password reset successful'
             });
-        } catch (error) {
-            console.error(error);
+        } 
+        catch (err) {
+            console.error(err);
             return res.status(500).json({
                 result: false,
                 status: 'error',

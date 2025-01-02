@@ -2,6 +2,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 import { config } from 'dotenv';
 
+import appRoute from './routes/app.route.js';
 import authRoute from './routes/auth.route.js';
 
 // env var
@@ -23,6 +24,7 @@ app.use(json());
 
 // Mount the product routes
 app.use('/api/auth', authRoute); 
+app.use('/api/app', appRoute); 
 
 // Global error handling
 app.use((err, req, res, next) => {

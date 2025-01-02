@@ -50,6 +50,8 @@ model User {
   created_at          DateTime            @default(now())
   updated_at          DateTime            @updatedAt
   deleted_at          DateTime?
+  resetToken          String?
+  resetTokenExpiry    DateTime?
 }
 
 // Product Table (Static)
