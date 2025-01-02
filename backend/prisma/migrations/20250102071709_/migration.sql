@@ -2,12 +2,12 @@
 CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `surname` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `tel` VARCHAR(191) NOT NULL,
     `address` VARCHAR(191) NOT NULL,
     `role` ENUM('CUSTOMER', 'ADMIN', 'OWNER') NOT NULL DEFAULT 'CUSTOMER',
+    `login_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL,
     `deleted_at` DATETIME(3) NULL,
@@ -36,7 +36,7 @@ CREATE TABLE `Bone` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `productId` INTEGER NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `defaultColor` VARCHAR(191) NOT NULL,
+    `defaultStyle` ENUM('COLOR', 'PATTERN') NOT NULL,
     `isConfiguration` BOOLEAN NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -70,7 +70,7 @@ CREATE TABLE `ModifiedBone` (
 CREATE TABLE `ModifiedBoneGroup` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `userId` INTEGER NOT NULL,
-    `type` ENUM('CUSTOM', 'TEMPLATE') NOT NULL DEFAULT 'TEMPLATE',
+    `shareStatus` BOOLEAN NOT NULL DEFAULT false,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
@@ -91,7 +91,6 @@ CREATE TABLE `CartItem` (
     `updated_at` DATETIME(3) NOT NULL,
     `deleted_at` DATETIME(3) NULL,
 
-    UNIQUE INDEX `CartItem_modifiedBoneGroupId_key`(`modifiedBoneGroupId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

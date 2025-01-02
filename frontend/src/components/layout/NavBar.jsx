@@ -18,23 +18,23 @@ const NavBar = () => {
     ]
     
     return (
-        <div className="nav font-poppins">
-            <div className="flex justify-between items-center p-4 text-white bg-gray-800">
+        <div className="nav font-poppins ">
+            <div className="flex justify-between items-center p-4 text-black bg-blue-200">
                 {/* Logo */}
-                <div className="text-xl font-bold">MyBrand</div>
+                <div className="px-3 font-concert-one text-xl ">YADOM</div>
 
                 <div className='hidden lg:flex'>
                     <ul className="flex space-x-12">
                         { menuItems.map((item, index) => (
                             <li key={index}>
-                                <Link to={item.Link} className="text-lg">{item.name}</Link>
+                                <Link to={item.Link} className="font-normal">{item.name}</Link>
                             </li>
                         ))}
                     </ul>
                 </div>
 
                 {/* Hamburger Menu Icon */}
-                <div className=''>
+                <div className='font-normal'>
                     <Hamburger rounded toggled={isMenuOpen} toggle={toggleMenu} size={24} duration={0.3}/>
                 </div>
             </div>

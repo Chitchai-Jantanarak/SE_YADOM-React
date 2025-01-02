@@ -14,29 +14,28 @@ enum Role {
 }
 
 enum BoneStyle {
-  COLOR
+  COLOR         
   PATTERN
 }
 
 enum ProductType {
-  ACCESSORY
-  MAIN_PRODUCT
-  UNKNOWN
+  ACCESSORY     // 2D Accessory for MAIN_PRODUCT
+  MAIN_PRODUCT  // 3D Main Product
+  UNKNOWN       // default
 }
 
 enum OrderStatus {
-  WAITING
-  PENDING
-  CANCELED
-  CONFIRMED
-  COMPLETED
+  WAITING       // Waiting for user to transmit the order
+  PENDING       // Waiting for admin to confirm
+  CANCELED      // Canceled by user
+  CONFIRMED     // Confirmed by admin
+  COMPLETED     // Completed by admin
 }
 
 // User Table
 model User {
   id                  Int                 @id @default(autoincrement())
   name                String
-  surname             String
   email               String              @unique
   password            String
   tel                 String
@@ -47,6 +46,7 @@ model User {
   orders              Order[]
   modifiedBoneGroups  ModifiedBoneGroup[]
 
+  login_at            DateTime            @default(now())
   created_at          DateTime            @default(now())
   updated_at          DateTime            @updatedAt
   deleted_at          DateTime?
@@ -112,8 +112,8 @@ model ModifiedBoneGroup {
   id                  Int                 @id @default(autoincrement())
   userId              Int
   cartItem            CartItem[] 
-  shareStatus         Boolean             @default(false) // Outside Setter count as false & user Export
   modifiedBones       ModifiedBone[]
+  shareStatus         Boolean             @default(false) // Outside Setter count as false & user Export
   
   user                User                @relation(fields: [userId], references: [id])
   
@@ -126,7 +126,7 @@ model CartItem {
   productId           Int
   aromaId             Int?
   userId              Int
-  modifiedBoneGroupId Int?                @unique
+  modifiedBoneGroupId Int?                
   orderId             Int?
   price               Float               // Computed price of the CartItem { (product + aroma) * quantity + delivery }
   quantity            Int
@@ -155,5 +155,5 @@ model Order {
   user                User                @relation(fields: [userId], references: [id])
 
   createdAt           DateTime            @default(now())
-  updatedAt           DateTime            @updatedAt
+  updatedAt           DateTime            @updatedAt  // Admin Setter
 }

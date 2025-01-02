@@ -4,28 +4,28 @@
 
 @font-face {
   font-family: 'Noto Sans Thai';
-  src: url('/fonts/Noto_Sans_Thai/NotoSansThai-Regular.ttf') format('truetype');
+  src: url('/src/assets/fonts/Noto_Sans_Thai/NotoSansThai-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Poppins';
-  src: url('/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+  src: url('/src/assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Alike';
-  src: url('/fonts/Alike/Alike-Regular.ttf') format('truetype');
+  src: url('/src/assets/fonts/Alike/Alike-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Concert One';
-  src: url('/fonts/Concert_One/ConcertOne-Regular.ttf') format('truetype');
+  src: url('/src/assets/fonts/Concert_One/ConcertOne-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }

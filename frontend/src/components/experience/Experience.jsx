@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, PerspectiveCamera, ScrollControls, Scroll, useScroll } from "@react-three/drei";
 import { Cloud } from "../models/Cloud";
+import { Model1 } from "../models/Model1";
 
 const Clouds = ({ isMobile }) => {
     const cloudRefs = useRef([]);
@@ -17,7 +18,6 @@ const Clouds = ({ isMobile }) => {
         cloudRefs.current.forEach((ref, index) => {
             if (ref.current) {
                 ref.current.position.y = Math.sin(scroll.offset * 5 + index) * 2;
-                ref.current.rotation.z += 0.005;
             }
         });
     });
@@ -61,9 +61,9 @@ const Experience = () => {
                 <PerspectiveCamera makeDefault position={[0, 0, 9]} fov={isMobile ? 75 : 45} />
 
                 <Clouds isMobile={isMobile} />
+                <Model1 position={[0, -2, 0]} scale={isMobile ? 0.5 : 0.5} />
 
                 <Scroll html>
-                    <h2>Hi, I'm</h2>
                 </Scroll>
             </ScrollControls>
         </Canvas>
