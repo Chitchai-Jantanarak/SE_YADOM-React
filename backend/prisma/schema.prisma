@@ -16,6 +16,7 @@ enum Role {
 enum BoneStyle {
   COLOR         
   PATTERN
+  TEXT
 }
 
 enum ProductType {
@@ -75,12 +76,24 @@ model Product {
 model Bone {
   id                  Int                 @id @default(autoincrement())
   productId           Int
+  textId              Int?
   name                String
+  def_detail          String
   defaultStyle        BoneStyle
   modifiedBones       ModifiedBone[]
   isConfiguration     Boolean
 
+  text                Text?               @relation(fields: [textId], references: [id])
   product             Product             @relation(fields: [productId], references: [id])
+}
+
+// Text Table (Static - MAIN_PRODUCT)
+model Text {
+  id                  Int                 @id @default(autoincrement())
+  font                String
+  size                Float
+
+  Bone                Bone[]
 }
 
 // Aroma Table (Static - MAIN_PRODUCT) 
@@ -100,7 +113,7 @@ model Aroma {
 model ModifiedBone {
   id                  Int                 @id @default(autoincrement())
   boneId              Int
-  color               String
+  mod_detail          String
   modifiedBoneGroupId Int?
 
   bone                Bone                @relation(fields: [boneId], references: [id])

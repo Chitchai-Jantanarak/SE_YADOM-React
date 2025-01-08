@@ -18,4 +18,9 @@ description
 12-23-2024 | front | Add | test model, import local font
 12-29-2024 | front | Fix | move path ( public -> assets )
 12-29-2024 | front | Add | test model, nav bar
-01-02-2025 | Back  | Add | prisma, Authenication
+01-02-2025 | back  | Add | prisma, Authenication
+01-05-2025 | front | Add | test animation
+01-06-2025 | front | Fix | layout
+01-07-2025 | front | Add | Experience
+01-07-2025 | back  | Fix | prisma
+01-09-2025 | front | Add | pre-auth pages

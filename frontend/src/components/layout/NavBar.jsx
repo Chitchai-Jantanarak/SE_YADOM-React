@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 const NavBar = () => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     const toggleMenu = () => {
         setIsMenuOpen(prevState => !prevState);
     };
@@ -16,22 +17,33 @@ const NavBar = () => {
         { name: 'About', Link: '/about'},
         { name: 'Contact', Link: '/contact'}
     ]
+
+    const handleLinkClick = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+        setIsMenuOpen(false);
+    };
     
     return (
-        <div className="nav font-poppins ">
-            <div className="flex justify-between items-center p-4 text-black bg-blue-200">
+        <div className="nav font-poppins sticky top-0 z-50">
+            <div className="flex justify-between items-center p-3 bg-blue-200">
                 {/* Logo */}
-                <div className="px-3 font-concert-one text-xl ">YADOM</div>
+                <a className="px-3 font-concert-one text-xl" href='/'>YADOM</a>
 
-                <div className='hidden lg:flex'>
+                <nav className='hidden lg:flex component-nav-main-container'>
                     <ul className="flex space-x-12">
                         { menuItems.map((item, index) => (
                             <li key={index}>
-                                <Link to={item.Link} className="font-normal">{item.name}</Link>
+                                <Link to={item.Link} className="font-normal hover-underline-animation" onClick={handleLinkClick}>
+                                    {item.name}
+                                </Link>
                             </li>
                         ))}
                     </ul>
-                </div>
+                </nav>
 
                 {/* Hamburger Menu Icon */}
                 <div className='font-normal'>
@@ -40,7 +52,7 @@ const NavBar = () => {
             </div>
 
             {/* Menu Content (Toggleable) */}
-            <motion.div
+            <motion.nav
                 className={`menu-content ${isMenuOpen ? 'block' : 'hidden'} text-black bg-gray-200 p-4`}    
                 initial={{ opacity: 0 }}
                 animate={{ opacity: isMenuOpen ? 1 : 0, zIndex: isMenuOpen ? 1 : -1 }}
@@ -49,11 +61,13 @@ const NavBar = () => {
                 <ul className="space-y-4">
                     { menuItems.map((item, index) => (
                         <li key={index}>
-                            <Link to={item.Link} className="text-lg">{item.name}</Link>
+                            <Link to={item.Link} className="text-lg" onClick={handleLinkClick}>
+                                {item.name}
+                            </Link>
                         </li>
                     ))}
                 </ul>
-            </motion.div>
+            </motion.nav>
         </div>
     );
 }
