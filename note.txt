@@ -24,3 +24,4 @@ description
 01-07-2025 | front | Add | Experience
 01-07-2025 | back  | Fix | prisma
 01-09-2025 | front | Add | pre-auth pages
+01-10-2025 | front | Add | desktop login pages

@@ -11,6 +11,7 @@ export default {
         'poppins': ['Poppins', 'sans-serif'],
         'alike': ['Alike', 'serif'],
         'concert-one': ['Concert One', 'cursive'],
+        'montserrat': ['montserrat', 'sans-serif'],
       },
     },
   },

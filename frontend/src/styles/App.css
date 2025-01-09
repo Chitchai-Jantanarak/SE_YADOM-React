@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #root {
   margin: 0;
   padding: 0;
@@ -8,7 +12,7 @@
   --primary-color: #B7D9FB;
   --secondary-color: #FDFEE2;
   --tertiary-color: #CDF396;
-  --background-color: #F5F5F5; 
+  --background-color: #FDFDFD; 
   --title-text-color: #413707; 
   --formal-text-color: #343E45;
   --link-color: #1D4ED8;
@@ -46,6 +50,10 @@ section {
 .App {
   height: 100%;
   width: 100%;
+}
+
+.home, .login, .register {
+  color: var(--formal-text-color);
 }
 
 .component-nav-main-container ul li a {
@@ -87,6 +95,12 @@ section {
 .home-experience1-title {
   letter-spacing: 1.5rem;
   color: var(--title-text-color);
+}
+
+.register-header-title {
+  color: var(--title-text-color);
+  letter-spacing: var(--spacing-small);
+  @apply font-alike text-2xl
 }
 
 .register-grid-primary {
